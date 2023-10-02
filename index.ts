@@ -1,13 +1,16 @@
-import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
+import express, { Express, Request, Response } from 'express';
+import dotenv from 'dotenv';
+
+const publish = require('./src/services/publish.service');
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
+app.get('/', (req: Request, res: Response) => {
+  publish.publishMeasurement();
+  res.send('Express + TypeScript Server');
 });
 
 app.listen(port, () => {
