@@ -1,19 +1,23 @@
-FROM arm32v7/node:18
+# builder
+FROM node:18 AS base
 
-# Create app directory
-WORKDIR /usr/src/app
+COPY package.json ./
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+# install deps
+RUN npm install
+
+# copy source
+COPY src ./src
+COPY tsconfig.json ./tsconfig.json
 
 RUN npm run build
-# If you are building your code for production
-# RUN npm ci --omit=dev
 
-# Bundle app source
-COPY . .
+# runner
+FROM arm32v7/node:18
+
+# Copy node modules and build directory
+COPY --from=base /dist /dist
+COPY --from=base ./node_modules ./node_modules
 
 EXPOSE 4203
-CMD [ "npm", "run", "start" ]
+CMD ["dist/src/server.js"]
