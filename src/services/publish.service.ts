@@ -1,24 +1,28 @@
 import dotenv from 'dotenv';
-const axios = require('axios');
+import Measurement from '../models/measurement.model';
+import axios from 'axios';
+import moment from 'moment';
 
 dotenv.config();
-const keycloakBaseUrl = process.env.KC_BASE_URL;
-const clientId = process.env.KC_CLIENT_ID;
-const clientSecret = process.env.KC_SECRET;
+const baseUrl = process.env.BASE_URL;
 
-async function publishMeasurement() {
-  console.log(keycloakBaseUrl);
-  try {
-    const response = await axios.post(
-      `${keycloakBaseUrl}`,
-      `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
-    );
+async function publishMeasurement(measurement: Measurement) {
+  console.log('publishing from: ' + measurement.device);
+  const data = JSON.stringify({
+    ...measurement,
+    measuredAt: moment().toISOString(),
+  });
 
-    const accessToken = response.data.access_token;
-    console.log('Access Token:', accessToken);
-  } catch (error) {
-    console.error('Error fetching token:', error);
-  }
+  const config = {
+    method: 'post',
+    url: baseUrl + 'measurements',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: data,
+  };
+
+  return axios.request(config);
 }
 
-module.exports = { publishMeasurement };
+export { publishMeasurement };

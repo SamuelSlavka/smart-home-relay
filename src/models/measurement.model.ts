@@ -1,5 +1,5 @@
 export default interface Measurement {
-  time: Date;
+  measuredAt: string | undefined;
   humidity: number;
   temperature: number;
   device: string;
