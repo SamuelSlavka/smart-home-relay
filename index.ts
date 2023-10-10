@@ -13,17 +13,19 @@ const jsonParser = bodyParser.json();
 const port = process.env.PORT;
 
 app.get('/', (req: Request, res: Response) => {
-  const start = moment().toISOString();
+  const start = moment().utcOffset(120).toISOString(true);
   res.send(`Relay running ${start}`);
 });
 
 app.post('/', jsonParser, (req: Request, res: Response) => {
   const measurement = req.body;
   console.log(measurement);
+
   if (!validateMeasurement(measurement)) {
     res.status(422).json({ error: `Invalid input`, data: measurement });
     return;
   }
+
   publishMeasurement(measurement)
     .then(() => {
       res.json('Measurement sent');
@@ -34,6 +36,6 @@ app.post('/', jsonParser, (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-  const start = moment().toISOString();
+  const start = moment().utcOffset(120).toISOString(true);
   console.log(`[server]: Server is running at http://localhost:${port} as ${start}`);
 });

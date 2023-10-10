@@ -8,9 +8,10 @@ const baseUrl = process.env.BASE_URL;
 
 async function publishMeasurement(measurement: Measurement) {
   console.log('publishing from: ' + measurement.device);
+
   const data = JSON.stringify({
     ...measurement,
-    measuredAt: moment().toISOString(),
+    measuredAt: moment().utcOffset(120).toISOString(true),
   });
 
   const config = {
