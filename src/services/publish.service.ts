@@ -11,7 +11,7 @@ async function publishMeasurement(measurement: Measurement) {
 
   const data = JSON.stringify({
     ...measurement,
-    measuredAt: moment().utcOffset(120).toISOString(true),
+    measuredAt: moment().add(2, 'hours').toISOString(),
   });
 
   const config = {
