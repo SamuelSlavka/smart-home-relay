@@ -5,6 +5,7 @@ import moment from 'moment';
 
 dotenv.config();
 const baseUrl = process.env.BASE_URL;
+const apiKey = process.env.API_KEY;
 
 async function publishMeasurement(measurement: Measurement) {
   console.log('publishing from: ' + measurement.device);
@@ -19,6 +20,7 @@ async function publishMeasurement(measurement: Measurement) {
     url: baseUrl + 'measurements',
     headers: {
       'Content-Type': 'application/json',
+      'Api-Key': apiKey,
     },
     data: data,
   };
