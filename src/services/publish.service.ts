@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 import Measurement from '../models/measurement.model';
 import axios from 'axios';
-import moment from 'moment';
+import * as moment from 'moment';
+import 'moment-timezone';
 
 dotenv.config();
 const baseUrl = process.env.BASE_URL;
@@ -12,7 +13,7 @@ async function publishMeasurement(measurement: Measurement) {
 
   const data = JSON.stringify({
     ...measurement,
-    measuredAt: moment().add(2, 'hours').toISOString(),
+    measuredAt: moment.tz('Europe/Prague').toISOString(),
   });
 
   const config = {
