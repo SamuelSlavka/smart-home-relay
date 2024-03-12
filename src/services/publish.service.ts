@@ -13,7 +13,7 @@ async function publishMeasurement(measurement: Measurement) {
 
   const data = JSON.stringify({
     ...measurement,
-    measuredAt: moment().tz('Europe/Prague').format(),
+    measuredAt: moment.tz('Europe/Prague').format(),
   });
 
   const config = {
