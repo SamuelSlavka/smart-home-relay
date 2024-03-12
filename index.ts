@@ -13,7 +13,7 @@ const jsonParser = bodyParser.json();
 const port = process.env.PORT;
 
 app.get('/', (req: Request, res: Response) => {
-  const start = moment.tz('Europe/Prague').format();
+  const start = moment.tz('Europe/Prague').format('yyyy-MM-DDTHH:mm:ss.SSS') + 'Z';
   res.send(`Relay running ${start}`);
 });
 
@@ -36,6 +36,6 @@ app.post('/', jsonParser, (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-  const start = moment.tz('Europe/Prague').format();
+  const start = moment.tz('Europe/Prague').format('yyyy-MM-DDTHH:mm:ss.SSS') + 'Z';
   console.log(`[server]: Server is running at http://localhost:${port} as ${start}`);
 });
